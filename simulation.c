@@ -464,4 +464,3 @@ void show_parameters(struct State *S)
         printf("       Time step                  = % 6.2f\n", sim->DT);
         printf("       Total simulated time       = % 6d\n", (int)sim->total_time);
 }
-

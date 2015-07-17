@@ -170,29 +170,24 @@ int parse_config_file(const char *filename, struct State *S)
 void usage(int status, char *s)
 {
         if (status != 0) {
-                fprintf(stderr, "Usage: %s [OPTION]...\n", s);
+                fprintf(stderr, "Usage: %s [OPTIONS]\n", s);
                 fprintf(stderr, "Try `%s --help' for more information.\n", s);
         } else {
-                printf("Usage: %s [OPTION]...\n", s);
-                printf("\n\n\
-        Simulate network of spiking neurons.\n");
-                printf("\
-        -c, --config-file=FILE              read configuration parameters from FILE\n\
-        -v, --verbose                       be verbose.\n");
-
-                printf("\
-                                \n\
-        Network parameters:\n\
-        -N, --number-of-neurons=INT         set the total number of neurons\n\
-        -C, --number-of-connections=INT     set the number of connections per cell\n\
-        -f, --fraction-excitatory=REAL      set the fraction of excitatory cells in the whole network\n\
-        -g, --inh-to-exc-weight-ratio=REAL  set the ratio between inhibitory to excitatory efficacies (absolute value)\n\
-        -T, --BLAH BLAH TODO\n");
-
-                printf("\
-        \n\
-        Miscellaneous:\n\
-        -h, --help                          display this help and exit\n\n");
+                printf("Usage: %s [OPTIONS]\n", s);
+                printf("\n\
+   Simulate network of spiking neurons.\n\
+      -c, --config-file=FILE              read configuration parameters from FILE\n\
+      -v, --verbose                       be verbose.\n\n\
+   Network parameters:\n\
+      -N, --number-of-neurons=INT         set the total number of neurons\n\
+      -C, --number-of-connections=INT     set the number of connections per cell\n\
+      -f, --fraction-excitatory=REAL      set the fraction of excitatory cells in the whole network\n\
+      -g, --inh-to-exc-weight-ratio=REAL  set the ratio between inhibitory to excitatory efficacies (absolute value)\n\
+      -T, --membrane-time-constant=REAL   set the membrane time constant (in ms)\n\
+      -r, --refractory-period=REAL        set the refractory period (in ms) \n\
+      -f, --fraction-excitatory=REAL      set the fraction of excitatory neurons in the network.\n\n\
+   Miscellaneous:\n\
+      -h, --help                          display this help and exit\n\n");
                 exit(status);
         }
 }

@@ -16,9 +16,9 @@ int main(int argc, char *argv[])
 
     setup_state(&S);
 
-    set_total_time(&S, 20000);
-    set_dt(&S, 0.05);
-    /* width of the window over which we sample */
+    set_total_time(&S, 20000); /* duration simulation (ms) */
+    set_dt(&S, 0.05); /* timestep (ms) */
+    /* width of the window over which we sample population rates */
     set_time_window_size(&S, 0.5);
 
     status = read_network_parameters(argc, argv, &S);
@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     int n_skipped_samples = (int) (S.sim.time_window_size / S.sim.DT);
     int iters_since_last_flush = 1;
 
+    /* Here we go */
     while (S.sim.time < S.sim.total_time) {
         simulate_one_step(&S);
         if (iters_since_last_flush == n_skipped_samples) {
