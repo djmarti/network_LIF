@@ -173,21 +173,25 @@ void usage(int status, char *s)
                 fprintf(stderr, "Usage: %s [OPTIONS]\n", s);
                 fprintf(stderr, "Try `%s --help' for more information.\n", s);
         } else {
-                printf("Usage: %s [OPTIONS]\n", s);
-                printf("\n\
-   Simulate network of spiking neurons.\n\
-      -c, --config-file=FILE              read configuration parameters from FILE\n\
-      -v, --verbose                       be verbose.\n\n\
-   Network parameters:\n\
-      -N, --number-of-neurons=INT         set the total number of neurons\n\
-      -C, --number-of-connections=INT     set the number of connections per cell\n\
-      -f, --fraction-excitatory=REAL      set the fraction of excitatory cells in the whole network\n\
-      -g, --inh-to-exc-weight-ratio=REAL  set the ratio between inhibitory to excitatory efficacies (absolute value)\n\
-      -T, --membrane-time-constant=REAL   set the membrane time constant (in ms)\n\
-      -r, --refractory-period=REAL        set the refractory period (in ms) \n\
-      -f, --fraction-excitatory=REAL      set the fraction of excitatory neurons in the network.\n\n\
-   Miscellaneous:\n\
-      -h, --help                          display this help and exit\n\n");
+                printf("Usage: %s [OPTIONS]\n\n", s);
+                printf("Simulate a network of spiking neurons and save the resulting spikes,\n\
+the population rates, and the autocorrelations.\n\n\
+  General settings:\n\
+    -c, --config-file=FILE              read configuration parameters from FILE\n\
+    -v, --verbose                       be verbose.\n\n\
+  Network parameters:\n\
+    -N, --number-of-neurons=INT         set the total number of neurons\n\
+    -C, --number-of-connections=INT     set the number of connections per cell\n\
+    -f, --fraction-excitatory=REAL      set the fraction of excitatory cells in the whole network\n\
+    -J, --synaptic-efficacy=REAL        set the synaptic efficacy of excitatory connections\n\
+    -g, --inh-to-exc-weight-ratio=REAL  set the ratio between inhibitory to excitatory efficacies (absolute value)\n\
+    -T, --membrane-time-constant=REAL   set the membrane time constant (in ms)\n\
+    -r, --refractory-period=REAL        set the refractory period (in ms) \n\
+    -D, --synaptic-delay=REAL           set the synaptic delay (in ms) \n\
+    -t, --synaptic-time-constant=REAL   set the time constant of fast synapses\n\
+    -I, --external-current=REAL         set the homogeneous external current (in mV)\n\n\
+  Miscellaneous:\n\
+    -h, --help                          display this help and exit\n\n");
                 exit(status);
         }
 }
@@ -198,11 +202,13 @@ static struct option long_opts[] = {
         {"config-file", required_argument, NULL, 'c'},
         {"number-of-neurons", required_argument, NULL, 'N'},
         {"number-of-connections", required_argument, NULL, 'C'},
+        {"fraction-excitatory", required_argument, NULL, 'f'},
+        {"synaptic-efficacy", required_argument, NULL, 'J'},
+        {"inh-to-exc-weight-ratio ", required_argument, NULL, 'g'},
         {"membrane-time-constant", required_argument, NULL, 'T'},
         {"refractory-period", required_argument, NULL, 'r'},
-        {"synaptic-efficacy", required_argument, NULL, 'J'},
-        {"fraction-excitatory", required_argument, NULL, 'f'},
-        {"inh-to-exc-weight-ratio ", required_argument, NULL, 'g'},
+        {"synaptic-delay", required_argument, NULL, 'D'},
+        {"synaptic-time-constant", required_argument, NULL, 't'},
         {"ext-current", required_argument, NULL, 'I'},
         {0, 0, 0, 0}
 };
@@ -223,7 +229,7 @@ int process_options(void *s, int argc, char *argv[])
         opterr = 1;
         optind = 1; /* reset the counter (extern) */
 
-        while ((c = getopt_long(argc, argv, "hvc:N:C:T:r:J:f:g:D:t:I:",
+        while ((c = getopt_long(argc, argv, "hvc:N:C:f:J:g:T:r:D:t:I:",
                                         long_opts, &option_index)) != -1) {
 
                 switch (c) {

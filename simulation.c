@@ -36,7 +36,7 @@ void open_file_handlers(struct State *S)
         char filename[100];
         char sfx[20];
         struct Simulation *sim = &S->sim;
-        sprintf(sfx, "N%d_mu%02d", S->ntw.N, (int) (S->ntw.ext_current));
+        sprintf(sfx, "N_%05d_mu_%02d", S->ntw.N, (int) (S->ntw.ext_current));
         create_suffix(S, sfx);
         sprintf(filename, "spikes_%s", S->sim.suffix);
         sim->spikes_file = fopen(filename, "w");

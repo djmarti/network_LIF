@@ -9,7 +9,6 @@
 int main(int argc, char *argv[])
 {
     /* TODO process arguments and options */
-    printf("%d, %s", argc, argv[0]);
     int status = 0;
 
     struct State S;
@@ -40,7 +39,7 @@ int main(int argc, char *argv[])
         iters_since_last_flush++;
     }
     save_spike_activity(&S);
-    /* save_pdfs_synaptic_vars(&S.ntw); */
+    save_pdfs_synaptic_vars(&S.ntw);
     report("\n");
     compute_average_autocorrelations(&S);
     compute_global_autocorrelations(&S);
