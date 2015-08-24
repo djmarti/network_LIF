@@ -14,16 +14,17 @@ make
 ## Running the code and measuring network activity
 After compilation you will get an executable file called `simulate_one_trial`. This program 
 simulates the activity of the network for 20 seconds and saves in text files different measures of activity:
-    * The spike activity of the first 100 neurons of the network... , saved under a file like `spikes_N_10000_mu_24_delay_0p50_T1_0p5_T2_100.dat`. This long filename contains information about the specific parameters used in the simulation. See [filename suffixes](#suffixes) below for more details. The file contains all the spikes emitted during the simulation, with each line containing the time when a spike was emitted (first column) and the identifier of the neuron that emitted the spike (second column).
-    * The population activity of the excitatory and inhibitory populations, measured on non-overlapping sliding windows of width 0.5 ms.
-    * The average spike-train autocorrelation. 
-    * The autocorrelation of the population activities (excitatory and inhibitory). 
+* The spike activity of the first 100 neurons of the network... , saved under a file like `spikes_N_10000_mu_24_delay_0p50_T1_0p5_T2_100.dat`. This long filename contains information about the specific parameters used in the simulation. See [filename suffixes](#suffixes) below for more details. The file contains all the spikes emitted during the simulation, with each line containing the time when a spike was emitted (first column) and the identifier of the neuron that emitted the spike (second column).
+* The population activity of the excitatory and inhibitory populations, measured on non-overlapping sliding windows of width 0.5 ms.
+* The average spike-train autocorrelation. 
+* The autocorrelation of the population activities (excitatory and inhibitory). 
 
 
 ## Specifying parameters
 You can specify the values of different network parameters with the command line and a configuration file. The configuration file is called `brunel2000.conf' and sets the default values. The command line options can be used to override the default values without having to edit the config file. 
 
-```Usage: ./simulate_one_trial [OPTIONS]
+```
+Usage: ./simulate_one_trial [OPTIONS]
 
 Simulate a network of spiking neurons and save spike activity,
 population rates, and autocorrelations.
