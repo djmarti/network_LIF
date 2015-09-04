@@ -85,8 +85,9 @@ struct Network {
         /* Table of spikes */
         struct TableNSpikes tab_spikes;
 
-        /* Counter of spikes within time window */
-        int n_spikes;
+        /* Counter of spikes within time window, for exc. and inh. populations */
+        int ne_spikes;
+        int ni_spikes;
 };
 
 /* network.c */

@@ -10,7 +10,8 @@ const gsl_rng_type *Rng_T;  /* Type of rng */
 void setup_network(struct Network *ntw)
 {
         ntw->cell = NULL;
-        ntw->n_spikes = 0;
+        ntw->ne_spikes = 0;
+        ntw->ni_spikes = 0;
         ntw->slow_flag = false;
 }
 

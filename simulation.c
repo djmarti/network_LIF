@@ -167,7 +167,7 @@ void update_membrane_potentials (struct State *S)
                         }
                         ntw->tab_spikes.num_spikes[i_curr]++;
                         if (spike_time > S->sim.offset)
-                                ntw->n_spikes++;
+                                j < ntw->NE ? ntw->ne_spikes++ : ntw->ni_spikes++;
                         /* push_spike(nrn, spike_time); */
                         nrn->ref_state = ntw->top_ref_state;
                         nrn->V_m = V_reset 
@@ -230,18 +230,16 @@ void update_pivots(struct State *S)
 {
         struct Network *ntw = &S->ntw;
         ntw->tab_spikes.i_curr++;
+        ntw->tab_spikes.i_curr %= ntw->tab_spikes.size;
         ntw->tab_spikes.i_delay++;
-        /* Reset circular array if necessary */
-        if (ntw->tab_spikes.i_curr == ntw->tab_spikes.size)
-                ntw->tab_spikes.i_curr = 0;
-        if (ntw->tab_spikes.i_delay == ntw->tab_spikes.size)
-                ntw->tab_spikes.i_delay = 0;
+        ntw->tab_spikes.i_delay %= ntw->tab_spikes.size;
 }
 
 void reset(struct State *S)
 {
         S->sim.time = 0;
-        S->ntw.n_spikes = 0;
+        S->ntw.ne_spikes = 0;
+        S->ntw.ni_spikes = 0;
         for (int i = 0; i < S->ntw.N; i++)
                 S->ntw.cell[i].spike_train.n = 0;
         /* To carry over the spikes from the previous trial,
@@ -403,29 +401,43 @@ void flush_population_rate(struct State *S)
 {
         struct Simulation *sim = &S->sim;
         struct Network *ntw = &S->ntw;
-        double tmp;
+        double tmp_e, tmp_i;
         if ( (int) rint(sim->time / sim->DT) % 100 == 0) {
                 report("% 9.3f   \r ", sim->time);  
                 fflush(stdout);
         }
         fprintf(sim->pop_rates_file, "% 9.3f  ", sim->time);
-        tmp = ntw->n_spikes / (double) (sim->time_window_size * ntw->N);
-        fprintf(sim->pop_rates_file, "% 9.3f\n", 1e3 * tmp);  /* Rates in Hz */
-        ntw->n_spikes = 0;
+        tmp_e = ntw->ne_spikes / (double) (sim->time_window_size * ntw->NE);
+        tmp_i = ntw->ni_spikes / (double) (sim->time_window_size * ntw->NI);
+        fprintf(sim->pop_rates_file, "% 9.3f % 9.3f\n", 1e3 * tmp_e, 1e3 * tmp_i);  /* Rates in Hz */
+        ntw->ne_spikes = 0;
+        ntw->ni_spikes = 0;
 }
 
-double population_rate(struct State *S)
+double population_rate_E(struct State *S)
 {
-        return 1e3 * S->ntw.n_spikes / (double) (S->ntw.N * (S->sim.total_time - S->sim.offset));
+        return 1e3 * S->ntw.ne_spikes / (double) (S->ntw.NE * (S->sim.total_time - S->sim.offset));
 }
+
+double population_rate_I(struct State *S)
+{
+        return 1e3 * S->ntw.ni_spikes / (double) (S->ntw.NI * (S->sim.total_time - S->sim.offset));
+}
+
 
 void save_spike_activity(struct State *S)
 {
+    /* Draw a sample of neurons from the excitatory and inhibitory populations,
+     * and save their spiking activity */
     struct Dynamic_Array *s;
-    for (int i = 0; i < 100; i++) {
-            s = &S->ntw.cell[i].spike_train;
+    int id;
+    int n_samples = 100;
+    int fraction_ei = (int)(n_samples * ntw->NE / ntw->N);
+    for (int i = 0; i < n_samples; i++) {
+            i < fraction_ei ? id = i : id = ntw->NE + (i - fraction_ei);
+            s = &S->ntw.cell[id].spike_train;
             for (size_t k = 0; k < s->n; k++)
-                    fprintf(S->sim.spikes_file, "% 7.3f % 4d\n", s->data[k], i);
+                    fprintf(S->sim.spikes_file, "% 7.3f % 4d\n", s->data[k], id);
     }
 }
 
