@@ -166,8 +166,12 @@ void update_membrane_potentials (struct State *S)
                                 exit (2);
                         }
                         ntw->tab_spikes.num_spikes[i_curr]++;
-                        if (spike_time > S->sim.offset)
-                                j < ntw->NE ? ntw->ne_spikes++ : ntw->ni_spikes++;
+                        if (spike_time > S->sim.offset) {
+                                if (j < ntw->NE)
+                                        ntw->ne_spikes++;
+                                else 
+                                        ntw->ni_spikes++;
+                        }
                         /* push_spike(nrn, spike_time); */
                         nrn->ref_state = ntw->top_ref_state;
                         nrn->V_m = V_reset 
@@ -432,9 +436,9 @@ void save_spike_activity(struct State *S)
     struct Dynamic_Array *s;
     int id;
     int n_samples = 100;
-    int fraction_ei = (int)(n_samples * ntw->NE / ntw->N);
+    int fraction_ei = (int)(n_samples * S->ntw.NE / S->ntw.N);
     for (int i = 0; i < n_samples; i++) {
-            i < fraction_ei ? id = i : id = ntw->NE + (i - fraction_ei);
+            id = (i < fraction_ei) ? i : S->ntw.NE + (i - fraction_ei);
             s = &S->ntw.cell[id].spike_train;
             for (size_t k = 0; k < s->n; k++)
                     fprintf(S->sim.spikes_file, "% 7.3f % 4d\n", s->data[k], id);
