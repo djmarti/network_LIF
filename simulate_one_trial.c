@@ -8,22 +8,16 @@
 
 int main(int argc, char *argv[])
 {
-    /* TODO process arguments and options */
     int status = 0;
-
     struct State S;
-
     setup_state(&S);
-
     set_total_time(&S, 20000); /* duration simulation (ms) */
     set_dt(&S, 0.05); /* timestep (ms) */
     /* width of the window over which we sample population rates */
     set_time_window_size(&S, 0.5);
-
     status = read_network_parameters(argc, argv, &S);
     status = initialize_network(&S);
     fill_synaptic_matrix(&S.ntw);
-
     open_file_handlers(&S);
 
     int n_skipped_samples = (int) (S.sim.time_window_size / S.sim.DT);
