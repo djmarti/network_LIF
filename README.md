@@ -3,6 +3,13 @@ C code for a generic balanced network of leaky integrate-and-fire neurons, with 
 
 The code tries to be simple, clean, and readable.
 
+## Dependencies
+To compile the code, you will need the [`GNU scientific library`](http://www.gnu.org/software/gsl/) installed in your system. In [`debian-like`](http://www.debian.org) systems you can install the library with
+```shell
+sudo apt-get install libgsl-dev
+```
+
+
 ## Installation and compilation
 Just get the code and compile the code with either `make` or [`scons`](http://www.scons.org) in the `network_LIF` folder:
 ```shell
