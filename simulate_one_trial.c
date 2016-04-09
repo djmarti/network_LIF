@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     int status = 0;
     struct State S;
     setup_state(&S);
+    setup_rng();
     set_total_time(&S, 20000); /* duration simulation (ms) */
     set_dt(&S, 0.05); /* timestep (ms) */
     /* width of the window over which we sample population rates */
