@@ -26,7 +26,7 @@ void create_suffix(struct State *S, char *sfx)
                 sprintf(times_str, "_delay_%s_T1_%s_T2_%d", d1, t1, (int) S->ntw.tau_slow);
         else
                 sprintf(times_str, "_delay_%s_T1_%s", d1, t1);
-        sprintf(S->sim.suffix, sfx);
+        sprintf(S->sim.suffix, "%s", sfx);
         strcat(S->sim.suffix, times_str);
         strcat(S->sim.suffix, ".dat");
 }
@@ -172,7 +172,7 @@ void update_membrane_potentials (struct State *S)
                                 else 
                                         ntw->ni_spikes++;
                         }
-                        /* push_spike(nrn, spike_time); */
+                        push_spike(nrn, spike_time);
                         nrn->ref_state = ntw->top_ref_state;
                         nrn->V_m = V_reset 
                                 + dt * euler(ntw, nrn, V_reset) * (1.0 - interpolator); 
