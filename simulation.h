@@ -1,7 +1,7 @@
 #ifndef _SIMULATION_H
 #define _SIMULATION_H 1
 
-#define MAX_SUFFIX_LENGTH 40
+#define MAX_SUFFIX_LENGTH 70
 #include <getopt.h>
 #include <stdbool.h>
 #include <gsl/gsl_histogram.h>
