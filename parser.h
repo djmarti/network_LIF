@@ -9,6 +9,8 @@
 #include "simulation.h"
 
 #define MAX_CHAR_SYMBOLS 25
+#define MAX_LINE 200
+
 
 struct List {
     /* This is a linked list of ints. It contains the ids of with all the

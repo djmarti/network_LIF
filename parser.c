@@ -5,8 +5,6 @@
  * Adapted from the parser by Stefano Fusi */
 #include "parser.h"
 
-const int MAX_LINE = 200;
-
 /* Auxiliary functions */
 
 bool is_numeric (const char * s)
