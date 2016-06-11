@@ -19,7 +19,7 @@ make
 ```
 
 ### Problems?
-This works well in my Linux boxes, but you may get some errors depending on the compiler you use (i.e., `clang` instead of `gcc`). Please let me know if you have problems, and I'll try to update the makefile to make it more portable.
+This code compiles and runs well in my Linux boxes, but you may get some errors depending on the compiler you use (i.e., `clang` instead of `gcc`). Please let me know if you have problems, and I'll try to update the code to make it more portable.
 
 
 ## Running the code and measuring network activity
